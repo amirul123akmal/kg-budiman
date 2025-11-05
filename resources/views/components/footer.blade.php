@@ -3,7 +3,7 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
 
       <!-- Logo + Social -->
-      <div class="flex flex-col items-center">
+      <div class="flex flex-col items-start">
         <img src="/images/jpkk.png" alt="JPKK Kampung Budiman Logo" class="h-14 mb-4" />
       </div>
 
