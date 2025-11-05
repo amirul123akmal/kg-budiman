@@ -1,0 +1,3 @@
+- [x] Enhance header-guest.blade.php with improved styling (shadows, gradients, hover effects, icons)
+- [x] Make dropdown functional using Alpine.js
+- [x] Test the changes by running the server (php artisan serve started on http://127.0.0.1:8000)
