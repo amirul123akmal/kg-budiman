@@ -80,7 +80,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                     
                     {{-- Card 1: E-mel Rasmi (Menggunakan Tertiary Light Color) --}}
-                    <div class="p-5 rounded-xl bg-gray-100 shadow-lg border border-gray-200">
+                    <div class="p-5 rounded-xl bg-gray-100 border border-gray-200">
                         <label for="email" class="block text-sm font-medium text-tertiary dark:text-tertiary mb-2 flex items-center">
                             <!-- Email Icon -->
                             <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
@@ -92,7 +92,7 @@
                     </div>
 
                     {{-- Card 2: Nombor Telefon (Menggunakan Secondary Light Color) --}}
-                    <div class="p-5 rounded-xl bg-gray-100 shadow-lg border border-gray-200">
+                    <div class="p-5 rounded-xl bg-gray-100 border border-gray-200">
                         <label for="phone" class="block text-sm font-medium text-secondary-800 dark:text-secondary-300 mb-2 flex items-center">
                             <!-- Phone Icon -->
                             <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-7.01-7.01C2.5 7.42 2 4.47 2 2a2 2 0 0 1 2-2h3c1.07 0 2.13.75 2.5 1.78l1.45 4.14a2 2 0 0 1-.37 2.18L6 14.5l3.5 3.5 3.5-3.5 4.14 1.45c1.03.37 1.78 1.43 1.78 2.5z"></path></svg>
@@ -105,14 +105,14 @@
                 </div>
 
                 {{-- Card 3: Alamat Kampung (Menggunakan Primary Light Color - Full Width) --}}
-                <div class="p-5 rounded-xl bg-gray-100 shadow-lg border border-gray-200">
+                <div class="p-5 rounded-xl bg-gray-100 border border-gray-200">
                     <label for="address" class="block text-sm font-medium text-primary-800 dark:text-primary-300 mb-2 flex items-center">
                         <!-- Location Icon -->
                         <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"></path><circle cx="12" cy="9" r="3"></circle></svg>
                         Alamat Kampung Penuh
                     </label>
                     <textarea id="address" name="address" rows="4" 
-                                class="w-full text-base bg-transparent border border-primary-300 dark:border-primary-600 focus:border-primary-500 focus:ring-0 dark:text-white rounded-lg p-3 mt-1" 
+                                class="w-full text-base bg-transparent border border-gray-200 dark:border-primary-600 focus:border-primary-500 focus:ring-0 dark:text-white rounded-lg p-3 mt-1" 
                                 required>Balai Raya Kampung Budiman, Jalan Utama, 84000 Muar, Johor.</textarea>
                 </div>
             </form>
