@@ -14,7 +14,7 @@
             </h2>
 
             <p class="mt-6 text-gray-200 leading-relaxed">
-                Sebuah komuniti harmoni yang berteraskan nilai kemanusiaan, gotong-royong, dan semangat kejiranan.
+                Sebuah komuniti harmoni yang berteraskan nilai kemanusiann, otong-royong, dan semangat kejiranan.
             </p>
 
             <p class="mt-3 text-gray-200 leading-relaxed">

@@ -29,43 +29,14 @@
         </div>
     </section>
    
-    <!-- aktiviti dan pengunguman baru -->
     @php
-
         // Define the custom gradient for headings and primary elements
         $gradientClass = "bg-gradient-to-r from-primary to-tertiary";
-
-        // --- Data Mockup Aktiviti (5 items) ---
-        $aktivitiList = [
-            ['date' => '2024', 'title' => 'Program Service Learning Malaysia University For Society (SULAM 2024)', 'description' => 'Bertempat di Dewan Orang Ramai Kampung Budiman telah diadakan Program Service Learning Malaysia University For Society (SULAM 2024) bersama penduduk Kampung Budiman dengan kerjasama mahasiswa UTM.', 'tags' => ['Pendidikan', 'Kerjasama UTM', 'Komuniti'], 'image_urls' => [
-                'https://placehold.co/600x400/D0D0D0/202020?text=SULAM+Gambar+1',
-                'https://placehold.co/600x400/C0C0C0/303030?text=SULAM+Gambar+2',
-                'https://placehold.co/600x400/E0E0E0/101010?text=SULAM+Gambar+3',
-            ]],
-            ['date' => '2024', 'title' => 'Gotong Royong Perdana Kawasan Balai Raya', 'description' => 'Semua ahli komuniti dijemput hadir dalam aktiviti gotong royong membersihkan kawasan Balai Raya bagi persiapan majlis akan datang.', 'tags' => ['Komuniti', 'Gotong Royong', 'Kebersihan'], 'image_urls' => [
-                'https://placehold.co/600x400/A0A0A0/101010?text=Gotong+Royong+1',
-                'https://placehold.co/600x400/B0B0B0/202020?text=Gotong+Royong+2',
-            ]],
-            ['date' => '2024', 'title' => 'Kursus Digital Marketing untuk Usahawan Tempatan', 'description' => 'Kelas intensif bagi membantu usahawan kampung mempelajari asas pemasaran digital dan e-dagang untuk meningkatkan jualan.', 'tags' => ['Perniagaan', 'Latihan', 'Digital'], 'image_urls' => [
-                'https://placehold.co/600x400/F0F0F0/505050?text=Kursus+Digital+1',
-                'https://placehold.co/600x400/D5D5D5/404040?text=Kursus+Digital+2',
-            ]],
-            ['date' => '2025', 'title' => 'Kempen Derma Darah Tahunan', 'description' => 'Kerjasama dengan Hospital Besar untuk mengendalikan kempen derma darah bagi membantu masyarakat setempat.', 'tags' => ['Kesihatan', 'Komuniti'], 'image_urls' => [
-                'https://placehold.co/600x400/E5E5E5/303030?text=Derma+Darah+1',
-            ]],
-            ['date' => '2025', 'title' => 'Sesi Ceramah Pembangunan Keluarga', 'description' => 'Sesi ceramah yang memberi fokus kepada komunikasi dan pengurusan kewangan dalam institusi keluarga.', 'tags' => ['Keluarga', 'Pembangunan', 'Ilmu'], 'image_urls' => [
-                'https://placehold.co/600x400/B5B5B5/808080?text=Ceramah+Keluarga+1',
-            ]],
-        ];
-
-        // --- Data Mockup Pengumuman ---
-        $pengumumanList = [
-            ['date' => 'September 28, 2025', 'text' => 'Pendaftaran Program Mahabbah Kasih kini dibuka. Sila tekan link dibawah untuk mendaftar.'],
-            ['date' => 'September 28, 2025', 'text' => 'Sila Klik Pwkelling TNC HEP Bil. 11/2025.', 'new' => true],
-            ['date' => 'September 25, 2025', 'text' => 'Pendaftaran Program Mahabbah Kasih kini dibuka. Sila tekan link dibawah untuk mendaftar.'],
-            ['date' => 'September 25, 2025', 'text' => 'Sila Klik Pwkelling TNC HEP Bil. 11/2025.', 'new' => true],
-            ['date' => 'September 20, 2025', 'text' => 'Notis Pemakluman Mesyuarat Agung Tahunan akan diadakan pada 10 Oktober 2025.'],
-        ];
+        
+        // Data is now passed from controller: $aktivitiList and $pengumumanList
+        // Ensure variables exist with default empty arrays
+        $aktivitiList = $aktivitiList ?? [];
+        $pengumumanList = $pengumumanList ?? [];
     @endphp
 
     <section class="py-16 md:py-20 bg-gray-50 font-sans">
@@ -80,7 +51,7 @@
                     </h3>
 
                     <div class="space-y-6">
-                        @foreach ($aktivitiList as $index => $aktiviti)
+                        @forelse ($aktivitiList as $index => $aktiviti)
                         
                         <!-- Card Aktiviti dengan Carousel Gambar -->
                         <div class="activity-card bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden transform transition duration-500 ease-in-out hover:shadow-xl hover:scale-[1.01] grid grid-cols-1 md:grid-cols-3" data-card-index="{{ $index }}">
@@ -88,24 +59,33 @@
                             <!-- Carousel Gambar (Kiri) -->
                             <div class="md:col-span-1 relative h-56 md:h-full overflow-hidden" id="carousel-{{ $index }}">
                                 
-                                @foreach ($aktiviti['image_urls'] as $imgIndex => $imageUrl)
-                                <!-- Gambar Carousel -->
-                                <img src="{{ $imageUrl }}" 
-                                    alt="Gambar Aktiviti {{ $index + 1 }} - {{ $imgIndex + 1 }}" 
-                                    class="carousel-img absolute top-0 left-0 w-full h-full object-cover transition duration-700 ease-in-out"
-                                    data-img-index="{{ $imgIndex }}"
-                                    style="opacity: {{ $imgIndex === 0 ? 1 : 0 }};"
-                                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCCCCC/303030?text=Gambar+Aktiviti'">
-                                @endforeach
-                                
-                                <!-- Carousel Controls (Simple Dots) -->
-                                <div class="absolute bottom-2 left-0 right-0 flex justify-center space-x-2 p-1">
+                                @if(!empty($aktiviti['image_urls']) && count($aktiviti['image_urls']) > 0)
                                     @foreach ($aktiviti['image_urls'] as $imgIndex => $imageUrl)
-                                        <button class="carousel-dot-{{ $index }} w-2 h-2 rounded-full transition duration-300" 
-                                                data-img-index="{{ $imgIndex }}"
-                                                style="bg-primary"></button>
+                                    <!-- Gambar Carousel -->
+                                    <img src="{{ $imageUrl }}" 
+                                        alt="Gambar Aktiviti {{ $index + 1 }} - {{ $imgIndex + 1 }}" 
+                                        class="carousel-img absolute top-0 left-0 w-full h-full object-cover transition duration-700 ease-in-out"
+                                        data-img-index="{{ $imgIndex }}"
+                                        style="opacity: {{ $imgIndex === 0 ? 1 : 0 }};"
+                                        onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCCCCC/303030?text=Gambar+Aktiviti'">
                                     @endforeach
-                                </div>
+                                    
+                                    <!-- Carousel Controls (Simple Dots) -->
+                                    @if(count($aktiviti['image_urls']) > 1)
+                                    <div class="absolute bottom-2 left-0 right-0 flex justify-center space-x-2 p-1">
+                                        @foreach ($aktiviti['image_urls'] as $imgIndex => $imageUrl)
+                                            <button class="carousel-dot-{{ $index }} w-2 h-2 rounded-full transition duration-300 bg-gray-400 hover:bg-primary" 
+                                                    data-img-index="{{ $imgIndex }}"
+                                                    aria-label="Go to slide {{ $imgIndex + 1 }}"></button>
+                                        @endforeach
+                                    </div>
+                                    @endif
+                                @else
+                                    <!-- Default placeholder image if no images -->
+                                    <img src="{{ asset('images/aktiviti.jpg') }}" 
+                                        alt="Gambar Aktiviti" 
+                                        class="w-full h-full object-cover">
+                                @endif
                             </div>
 
                             <!-- Kandungan (Kanan) -->
@@ -122,6 +102,7 @@
                                     <p class="text-gray-600 mb-4 text-sm line-clamp-3">{{ $aktiviti['description'] }}</p>
                                 </div>
                                 
+                                @if(!empty($aktiviti['tags']) && count($aktiviti['tags']) > 0)
                                 <div class="flex flex-wrap gap-2 mt-auto pt-3 border-t border-gray-100">
                                     @foreach ($aktiviti['tags'] as $tag)
                                         <!-- Menggunakan warna secondary untuk tag -->
@@ -130,9 +111,15 @@
                                         </span>
                                     @endforeach
                                 </div>
+                                @endif
                             </div>
                         </div>
-                        @endforeach
+                        @empty
+                        <!-- Empty State -->
+                        <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-8 text-center">
+                            <p class="text-gray-500 text-lg">Tiada aktiviti untuk dipaparkan pada masa ini.</p>
+                        </div>
+                        @endforelse
                     </div>
                 </div>
 
@@ -146,25 +133,27 @@
 
                     <!-- Senarai Pengumuman -->
                     <div class="p-5 divide-y divide-gray-100">
-                        @foreach ($pengumumanList as $pengumuman)
-                            <div class="py-3">
-                                <p class="text-xs text-gray-500 mb-1">{{ $pengumuman['date'] }}</p>
-                                <p class="text-sm text-gray-800 leading-relaxed">
-                                    
-                                    <!-- Ikon Loceng -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 inline text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M10.36 21a2 2 0 0 0 3.28 0"/></svg>
-                                    
-                                    {{ $pengumuman['text'] }}
-                                    
-                                    @if (isset($pengumuman['new']) && $pengumuman['new'])
-                                        <!-- 'Baru!' dengan animasi kelip-kelip (animate-pulse) dan warna merah terang -->
-                                        <span class="text-red-600 font-extrabold ml-1 animate-pulse">
-                                            Baru!
-                                        </span>
-                                    @endif
-                                </p>
-                            </div>
-                        @endforeach
+                    @forelse ($pengumumanList as $pengumuman)
+                        <div class="py-3">
+                            <p class="text-xs text-gray-500 mb-1">
+                                {{ \Carbon\Carbon::parse($pengumuman['start_date'])->format('d M Y') }}
+                            </p>
+                            <p class="text-sm text-gray-800 leading-relaxed">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 inline text-primary"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                    <path d="M10.36 21a2 2 0 0 0 3.28 0"/>
+                                </svg>
+                                <strong>{{ $pengumuman['title'] }}</strong><br>
+                                {{ Str::limit($pengumuman['content'], 100) }}
+                            </p>
+                        </div>
+                    @empty
+                        <div class="py-3 text-center">
+                            <p class="text-sm text-gray-500">Tiada pengumuman pada masa ini.</p>
+                        </div>
+                    @endforelse
                     </div>
                 </div>
 
@@ -180,11 +169,14 @@
 
             activityCards.forEach(card => {
                 const cardIndex = card.dataset.cardIndex;
-                const images = card.querySelectorAll(`#carousel-${cardIndex} .carousel-img`);
+                const carouselContainer = card.querySelector(`#carousel-${cardIndex}`);
+                if (!carouselContainer) return;
+                
+                const images = carouselContainer.querySelectorAll('.carousel-img');
                 const dots = card.querySelectorAll(`.carousel-dot-${cardIndex}`);
                 let currentImgIndex = 0;
 
-                if (images.length === 0) return;
+                if (images.length === 0 || images.length === 1) return; // Skip carousel if 0 or 1 image
 
                 // Fungsi untuk menukar gambar
                 function showImage(index) {
@@ -193,9 +185,16 @@
                         img.style.zIndex = (i === index) ? 10 : 1;
                     });
                     dots.forEach((dot, i) => {
-                        // Warna dot aktif menggunakan primary color
-                        dot.style.bg-primary;
-                        dot.style.border = (i === index) ? 'none' : '1px solid #ccc';
+                        // Warna dot aktif menggunakan primary color (using Tailwind classes)
+                        if (i === index) {
+                            dot.classList.remove('bg-gray-400');
+                            dot.classList.add('bg-primary');
+                            dot.style.transform = 'scale(1.2)';
+                        } else {
+                            dot.classList.remove('bg-primary');
+                            dot.classList.add('bg-gray-400');
+                            dot.style.transform = 'scale(1)';
+                        }
                     });
                     currentImgIndex = index;
                 }
@@ -207,15 +206,18 @@
                 }
                 
                 // Auto-play interval untuk setiap kad
-                setInterval(nextImage, intervalTime);
+                const intervalId = setInterval(nextImage, intervalTime);
 
                 // Event listener untuk dots (jika user klik secara manual)
                 dots.forEach(dot => {
                     dot.addEventListener('click', (e) => {
                         const index = parseInt(e.target.dataset.imgIndex);
-                        // Reset auto-play (optional, but good practice)
-                        // clearInterval(interval); 
+                        clearInterval(intervalId); // Stop auto-play when manually clicked
                         showImage(index);
+                        // Restart auto-play after manual interaction
+                        setTimeout(() => {
+                            setInterval(nextImage, intervalTime);
+                        }, 5000);
                     });
                 });
 

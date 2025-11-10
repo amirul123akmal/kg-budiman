@@ -33,7 +33,7 @@
                 <!-- Metric 1: Perniagaan -->
                 <div class="flex-1 max-w-xs mx-auto">
                     <p class="text-5xl md:text-6xl font-extrabold mb-2 leading-none">
-                        20%
+                        {{ $totalVendors ?? 0 }}
                     </p>
                     <p class="text-sm sm:text-lg uppercase tracking-widest font-medium text-gray-200">
                         Perniagaan
@@ -41,14 +41,14 @@
                 </div>
 
                 <!-- Metric 2: Produk -->
-                <div class="flex-1 max-w-xs mx-auto">
+                <!-- <div class="flex-1 max-w-xs mx-auto">
                     <p class="text-5xl md:text-6xl font-extrabold mb-2 leading-none">
                         72 +
                     </p>
                     <p class="text-sm sm:text-lg uppercase tracking-widest font-medium text-gray-200">
                         Produk
                     </p>
-                </div>
+                </div> -->
 
                 <!-- Metric 3: Tempatan -->
                 <div class="flex-1 max-w-xs mx-auto">
@@ -132,58 +132,55 @@
             <!-- Business Listings Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
-                @foreach (range(1, 6) as $i)
+                @forelse ($vendors ?? [] as $vendor)
                 <!-- Card for a Single Business -->
                 <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-[1.02] transition duration-300 ease-in-out border border-gray-100">
                     
-                    <!-- Business Image (Placeholder) -->
-                    <img src="https://placehold.co/600x400/D0D0D0/202020?text=Warung+{{ $i }}" 
-                        alt="Warung Pak Lebai" 
-                        class="w-full h-48 object-cover">
+                    <!-- Business Image -->
+                    @if (!empty($vendor['image_url']))
+                        <img src="{{ $vendor['image_url'] }}" 
+                            alt="{{ $vendor['name'] }}" 
+                            class="w-full h-48 object-cover">
+                    @else
+                        <img src="https://placehold.co/600x400/D0D0D0/202020?text={{ urlencode($vendor['name']) }}" 
+                            alt="{{ $vendor['name'] }}" 
+                            class="w-full h-48 object-cover">
+                    @endif
                     
                     <div class="p-6">
                         <!-- Business Name -->
                         <h3 class="text-xl font-bold text-gray-900 mb-2">
-                            Warung Pak Lebai
+                            {{ $vendor['name'] }}
                         </h3>
 
                         <!-- Business Description -->
                         <p class="text-sm text-gray-600 mb-4 line-clamp-2">
-                            Menyediakan pelbagai jenis makanan dan minuman tempatan yang sedap dan berkualiti.
+                            {{ $vendor['service'] ?? 'Tiada keterangan tersedia.' }}
                         </p>
 
                         <!-- Details/Metadata -->
                         <div class="space-y-3 text-sm">
                             
-                            <!-- Operating Hours -->
-                            <div class="flex items-center text-gray-700">
-                                <!-- Clock Icon -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 shrink-0 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                                <span>8:00 AM - 10:00 PM</span>
-                            </div>
-
-                            <!-- Location -->
-                            <div class="flex items-center text-gray-700">
-                                <!-- Map Pin Icon -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 shrink-0 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                                <span>Lot 123, Kampung Budiman</span>
-                            </div>
-
                             <!-- Phone Number -->
                             <div class="flex items-center text-gray-700">
                                 <!-- Phone Icon -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 shrink-0 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-8.2-8.2A19.79 19.79 0 0 1 2 4.18V2a2 2 0 0 1 2-2h3.9a2 2 0 0 1 2 1.74l.98 5.07a2 2 0 0 1-.5 1.95L7.56 12a14.33 14.33 0 0 0 7.08 7.08l1.45-1.45a2 2 0 0 1 1.95-.5l5.07.98A2 2 0 0 1 22 16.92z"/></svg>
-                                <span>01283765379</span>
+                                <span>{{ $vendor['phone_number'] ?? 'Tiada nombor telefon' }}</span>
                             </div>
                         </div>
 
                         <!-- Call to Action Button with Gradient -->
-                        <button class="w-full mt-6 px-4 py-3 rounded-lg text-white font-semibold shadow-md transition duration-300 ease-in-out {{ $gradientClass }} focus:outline-none focus:ring-1 focus:ring-opacity-50 focus:ring-primary">
+                        <a href="tel:{{ $vendor['phone_number'] ?? '' }}" class="block w-full mt-6 px-4 py-3 rounded-lg text-white font-semibold shadow-md transition duration-300 ease-in-out {{ $gradientClass }} focus:outline-none focus:ring-1 focus:ring-opacity-50 focus:ring-primary text-center hover:shadow-lg">
                             Klik untuk tempahan
-                        </button>
+                        </a>
                     </div>
                 </div>
-                @endforeach
+                @empty
+                <!-- Empty State -->
+                <div class="col-span-full text-center py-12">
+                    <p class="text-gray-500 text-lg">Tiada perniagaan tersedia pada masa ini.</p>
+                </div>
+                @endforelse
 
             </div>
         </div>
