@@ -137,8 +137,8 @@
                 <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-[1.02] transition duration-300 ease-in-out border border-gray-100">
                     
                     <!-- Business Image -->
-                    @if (!empty($vendor['image_url']))
-                        <img src="{{ $vendor['image_url'] }}" 
+                    @if (!empty($vendor['image_path']))
+                        <img src="..{{ $vendor['image_path'] }}" 
                             alt="{{ $vendor['name'] }}" 
                             class="w-full h-48 object-cover">
                     @else
@@ -160,7 +160,19 @@
 
                         <!-- Details/Metadata -->
                         <div class="space-y-3 text-sm">
-                            
+                            <!-- Operating Hours -->
+                            <div class="flex items-center text-gray-700">
+                                <!-- Clock Icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 shrink-0 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                                <span>{{$vendor['operation_time']}}</span>
+                            </div>
+
+                            <!-- Location -->
+                            <div class="flex items-center text-gray-700">
+                                <!-- Map Pin Icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 shrink-0 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                <span>{{$vendor['location']}} </span>
+                            </div>
                             <!-- Phone Number -->
                             <div class="flex items-center text-gray-700">
                                 <!-- Phone Icon -->

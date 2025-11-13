@@ -29,6 +29,8 @@ class Vendor extends Model
         'name',
         'phone_number',
         'service',
+        'location',
+        'operation_time',
         'image_path',
         'status',
     ];

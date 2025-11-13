@@ -21,21 +21,9 @@ class GuestController extends Controller
 	public function ahliJawatankuasa()
 	{
 		$members = CommitteeMember::orderBy('position')->orderBy('name')->get();
-
 		// Map to view-friendly arrays with resolved image URLs
 		$membersMapped = $members->map(function ($member) {
-			$imageUrl = null;
-			if (!empty($member->photo_path)) {
-				$path = trim($member->photo_path);
-				if (filter_var($path, FILTER_VALIDATE_URL) || strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0) {
-					$imageUrl = $path;
-				} elseif (strpos($path, 'storage/') === 0 || strpos($path, 'public/') === 0) {
-					$imageUrl = Storage::url($path);
-				} else {
-					$imageUrl = asset($path);
-				}
-			}
-
+			$imageUrl = Storage::url($member->photo_path);
 			return [
 				'name' => $member->name,
 				'position' => $member->position,
@@ -81,20 +69,8 @@ class GuestController extends Controller
                 // Helper function to convert path to URL
                 $pathToUrl = function ($path) {
                     $path = trim($path);
-                    // If already a full URL, return as is
-                    if (filter_var($path, FILTER_VALIDATE_URL)) {
-                        return $path;
-                    }
-                    // If starts with http:// or https://, return as is
-                    if (strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0) {
-                        return $path;
-                    }
-                    // If starts with storage/ or is a storage path, use Storage::url()
-                    if (strpos($path, 'storage/') === 0 || strpos($path, 'public/') === 0) {
+
                         return Storage::url($path);
-                    }
-                    // Otherwise, assume it's in public folder and use asset()
-                    return asset($path);
                 };
                 
                 // Try to decode as JSON first
@@ -121,7 +97,7 @@ class GuestController extends Controller
                 'tags' => $tags,
             ];
         })->toArray();
-        
+
         // Fetch announcements from database
         $announcements = Announcement::where('start_date', '<=', now())
             ->where(function ($query) {
@@ -148,37 +124,10 @@ class GuestController extends Controller
         // Fetch approved vendors from database
         $vendors = Vendor::approved()->orderBy('name', 'asc')->get();
         
-        // Format vendors for view
-        $vendorsList = $vendors->map(function ($vendor) {
-            $imageUrl = null;
-            if (!empty($vendor->image_path)) {
-                $path = trim($vendor->image_path);
-                // If already a full URL, return as is
-                if (filter_var($path, FILTER_VALIDATE_URL)) {
-                    $imageUrl = $path;
-                } elseif (strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0) {
-                    $imageUrl = $path;
-                } elseif (strpos($path, 'storage/') === 0 || strpos($path, 'public/') === 0) {
-                    // Storage path
-                    $imageUrl = Storage::url($path);
-                } else {
-                    // Assume it's in public folder
-                    $imageUrl = asset($path);
-                }
-            }
-            
-            return [
-                'name' => $vendor->name,
-                'service' => $vendor->service,
-                'phone_number' => $vendor->phone_number,
-                'image_url' => $imageUrl,
-            ];
-        })->toArray();
-        
-        $totalVendors = count($vendorsList);
-        
+        $totalVendors = count($vendors);
+        // dd($vendors, Vendor::all());
         return view('guest.bizhub', [
-            'vendors' => $vendorsList,
+            'vendors' => $vendors,
             'totalVendors' => $totalVendors,
         ]);
     }

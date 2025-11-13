@@ -62,4 +62,75 @@ class AJKController extends Controller
             'member' => $member
         ]);
     }
+
+    public function get_specific_jawatan_kuasa($id)
+    {
+        $member = CommitteeMember::find($id);
+        if (!$member) {
+            return $this->apiHelper->resp(['error' => 'Committee member not found'], 404);
+        }
+
+        return $this->apiHelper->resp([
+            'member' => $member
+        ]);
+    }
+
+    public function delete_jawatan_kuasa($id)
+    {
+        $member = CommitteeMember::find($id);
+        if (!$member) {
+            return $this->apiHelper->resp(['error' => 'Committee member not found'], 404);
+        }
+
+        // Delete the associated image
+        Storage::disk('public')->delete($member->photo_path);
+
+        $member->delete();
+
+        return $this->apiHelper->resp(['message' => 'Committee member deleted successfully']);
+    }
+
+    public function update_jawatan_kuasa(Request $request, $id)
+    {
+        if (!$request->isJson()) {
+            return $this->apiHelper->resp(['error' => 'Invalid JSON'], 400);
+        }
+
+        $member = CommitteeMember::find($id);
+        if (!$member) {
+            return $this->apiHelper->resp(['error' => 'Committee member not found'], 404);
+        }
+
+        $receivedData = json_decode($request->getContent(), true);
+
+        // Update fields if provided
+        if (isset($receivedData['name'])) {
+            $member->name = $receivedData['name'];
+        }
+        if (isset($receivedData['position'])) {
+            $member->position = $receivedData['position'];
+        }
+        if (isset($receivedData['phone_number'])) {
+            $member->phone_number = $receivedData['phone_number'];
+        }
+        if (isset($receivedData['image_base64'])) {
+            // Delete old image
+            Storage::disk('public')->delete($member->photo_path);
+
+            // Save new image
+            $imageBase64 = $receivedData['image_base64'];
+            $imageName = uniqid() . '.png';
+            $imageData = base64_decode($imageBase64);
+            Storage::disk('public')->put('ajk/' . $imageName, $imageData);
+
+            $member->photo_path = 'ajk/' . $imageName;
+        }
+
+        $member->save();
+
+        return $this->apiHelper->resp([
+            'message' => 'Committee member updated successfully',
+            'member' => $member
+        ]);
+    }
 }

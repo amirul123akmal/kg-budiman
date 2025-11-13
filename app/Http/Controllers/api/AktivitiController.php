@@ -64,4 +64,89 @@ class AktivitiController extends Controller
             'activity' => $activity
         ]);
     }
+
+    public function delete_aktiviti($id)
+    {
+        $activity = Activity::find($id);
+        if (!$activity) {
+            return $this->apiHelper->resp([
+                'error' => 'Activity not found'
+            ], 404);
+        }
+
+        // Optionally, delete associated images from storage
+        if ($activity->image_path) {
+            $imagePaths = explode(',', $activity->image_path);
+            foreach ($imagePaths as $path) {
+                Storage::disk('public')->delete($path);
+            }
+        }
+
+        $activity->delete();
+
+        return $this->apiHelper->resp([
+            'message' => 'Activity deleted successfully'
+        ]);
+    }
+
+    public function update_aktiviti(Request $request, $id)
+    {
+        $activity = Activity::find($id);
+        if (!$activity) {
+            return $this->apiHelper->resp([
+                'error' => 'Activity not found'
+            ], 404);
+        }
+
+        $receivedData = json_decode($request->getContent(), true);
+
+        // Update fields if provided
+        if (isset($receivedData['title'])) {
+            $activity->title = $receivedData['title'];
+        }
+        if (isset($receivedData['description'])) {
+            $activity->description = $receivedData['description'];
+        }
+        if (isset($receivedData['date'])) {
+            $activity->activity_date = $receivedData['date'];
+        }
+        if (isset($receivedData['images'])) {
+            // Optionally, delete old images from storage
+            if ($activity->image_path) {
+                $oldImagePaths = explode(',', $activity->image_path);
+                foreach ($oldImagePaths as $path) {
+                    Storage::disk('public')->delete($path);
+                }
+            }
+
+            $imagesPath = [];
+            $images = $receivedData['images'];
+            foreach ($images as $base64Image) {
+                $imageData = base64_decode($base64Image);
+                $imageName = uniqid().'.png';
+                Storage::disk('public')->put('aktiviti/'.$imageName, $imageData);
+                $imagesPath[] = 'aktiviti/'.$imageName;
+            }
+            $activity->image_path = implode(',', $imagesPath);
+        }
+
+        $activity->save();
+
+        return $this->apiHelper->resp([
+            'message' => 'Activity updated successfully',
+            'activity' => $activity
+        ]);
+    }
+
+    public function get_specific_aktiviti($id)
+    {
+        $activity = Activity::find($id);
+        if (!$activity) {
+            return $this->apiHelper->resp(['error' => 'Activity not found'], 404);
+        }
+
+        return $this->apiHelper->resp([
+            'activity' => $activity
+        ]);
+    }
 }

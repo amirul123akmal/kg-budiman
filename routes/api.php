@@ -10,22 +10,33 @@ Route::prefix('api')->group(function () {
 
     Route::controller(ajk::class)->group(function () {
         Route::get('/jawatan_kuasa', 'get_jawatan_kuasa');
+        Route::get('/jawatan_kuasa/{id}', 'get_specific_jawatan_kuasa');
         Route::post('/jawatan_kuasa', 'add_jawatan_kuasa');
+        Route::delete('/jawatan_kuasa/{id}', 'delete_jawatan_kuasa');
+        Route::patch('/jawatan_kuasa/{id}', 'update_jawatan_kuasa');
     });
 
     Route::controller(fasility::class)->group(function () {
         Route::get('/fasiliti', 'get_fasiliti');
+        Route::get('/fasiliti/{id}', 'get_specific_fasiliti');
         Route::post('/fasiliti', 'add_fasiliti');
         Route::delete('/fasiliti/{id}', 'delete_fasiliti');
+        Route::patch('/fasiliti/{id}', 'update_fasiliti');
     });
 
     Route::controller(activity::class)->group(function () {
         Route::get('/aktiviti', 'get_aktiviti');
+        Route::get('/aktiviti/{id}', 'get_specific_aktiviti');
         Route::post('/aktiviti', 'add_aktiviti');
+        Route::delete('/aktiviti/{id}', 'delete_aktiviti');
+        Route::patch('/aktiviti/{id}', 'update_aktiviti');
     });
 
     Route::controller(bizhub::class)->group(function () {
         Route::get('/bizhub', 'get_bizhub');
+        Route::get('/bizhub/{id}', 'get_specific_bizhub');
         Route::post('/bizhub', 'add_bizhub');
+        Route::patch('/bizhub/{id}', 'update_bizhub');
+        Route::delete('/bizhub/{id}', 'delete_bizhub');
     });
 });
