@@ -17,6 +17,7 @@ Route::prefix('api')->group(function () {
         Route::get('/fasiliti', 'get_fasiliti');
         Route::post('/fasiliti', 'add_fasiliti');
         Route::delete('/fasiliti/{id}', 'delete_fasiliti');
+        Route::patch('/fasiliti/{id}', 'update_fasiliti');
     });
 
     Route::controller(activity::class)->group(function () {
