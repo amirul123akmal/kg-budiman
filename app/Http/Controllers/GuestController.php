@@ -148,37 +148,10 @@ class GuestController extends Controller
         // Fetch approved vendors from database
         $vendors = Vendor::approved()->orderBy('name', 'asc')->get();
         
-        // Format vendors for view
-        $vendorsList = $vendors->map(function ($vendor) {
-            $imageUrl = null;
-            if (!empty($vendor->image_path)) {
-                $path = trim($vendor->image_path);
-                // If already a full URL, return as is
-                if (filter_var($path, FILTER_VALIDATE_URL)) {
-                    $imageUrl = $path;
-                } elseif (strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0) {
-                    $imageUrl = $path;
-                } elseif (strpos($path, 'storage/') === 0 || strpos($path, 'public/') === 0) {
-                    // Storage path
-                    $imageUrl = Storage::url($path);
-                } else {
-                    // Assume it's in public folder
-                    $imageUrl = asset($path);
-                }
-            }
-            
-            return [
-                'name' => $vendor->name,
-                'service' => $vendor->service,
-                'phone_number' => $vendor->phone_number,
-                'image_url' => $imageUrl,
-            ];
-        })->toArray();
-        
-        $totalVendors = count($vendorsList);
-        
+        $totalVendors = count($vendors);
+        // dd($vendors, Vendor::all());
         return view('guest.bizhub', [
-            'vendors' => $vendorsList,
+            'vendors' => $vendors,
             'totalVendors' => $totalVendors,
         ]);
     }

@@ -27,5 +27,7 @@ Route::prefix('api')->group(function () {
     Route::controller(bizhub::class)->group(function () {
         Route::get('/bizhub', 'get_bizhub');
         Route::post('/bizhub', 'add_bizhub');
+        Route::patch('/bizhub/{id}', 'update_bizhub');
+        Route::delete('/bizhub/{id}', 'delete_bizhub');
     });
 });
