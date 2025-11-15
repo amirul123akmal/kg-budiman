@@ -4,7 +4,7 @@
 
       <!-- Logo + Social -->
       <div class="flex flex-col items-start">
-        <img src="/images/jpkk.png" alt="JPKK Kampung Budiman Logo" class="h-14 mb-4" />
+        <img src="/images/jpkk ori.png" alt="JPKK Kampung Budiman Logo" class="h-14 mb-4" />
       </div>
 
       <!-- Pautan Pantas -->
@@ -25,7 +25,6 @@
           <li><a href="#" class="hover:text-gray-300">Aduan</a></li>
           <li><a href="{{ route('aktiviti') }}" class="hover:text-gray-300">Aktiviti</a></li>
           <li><a href="{{ route('budiman-biz-hub') }}" class="hover:text-gray-300">Budiman Biz Hub</a></li>
-          <li><a href="{{ route('login') }}" class="hover:text-gray-300">Pautan Admin</a></li>
         </ul>
       </div>
 
@@ -34,7 +33,7 @@
         <h3 class="font-semibold mb-3">Hubungi Kami</h3>
         <ul class="space-y-2 text-sm">
           <li>01234567892</li>
-          <li>kgbudiman@gmail.com.my</li>
+          <li>kampungbudimanofficial@gmail.com.my</li>
           <li>
             Lot 4470 /2, Jalan Haji Jalal,<br />
             Jalan Paip, Kampung Budiman,<br />
