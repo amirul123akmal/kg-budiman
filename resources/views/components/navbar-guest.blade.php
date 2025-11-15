@@ -1,20 +1,27 @@
-<nav class="bg-linear-to-r from-white to-gray-50 shadow-lg border-b border-gray-200 px-6 py-4" x-data="{ open: false }">
+<nav class="bg-linear-to-r from-white to-gray-50 shadow-lg border-b border-gray-200 px-6 py-4" x-data="{ open: false, dropdownOpen: false }">
   <div class="flex flex-wrap items-center justify-between mx-auto max-w-7xl">
     <!-- Logo -->
     <a href="#" class="flex items-center space-x-2 transition-transform hover:scale-105">
-      <img src="/images/jpkk.png" class="h-10 drop-shadow-sm" alt="Kampung Budiman Logo" />
+      <img src="/images/jpkk ori.png" class="h-10 drop-shadow-sm" alt="Kampung Budiman Logo" />
     </a>
 
-    <!-- Navbar links -->
+    <!-- Mobile menu button -->
+    <button @click="open = !open" class="md:hidden inline-flex items-center p-2 rounded-lg text-gray-500 hover:bg-gray-100">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+
+    <!-- Navbar links - Desktop -->
     <div class="hidden md:flex items-center space-x-8 font-medium">
       <a href="{{ route('utama') }}" class="text-black hover:text-primary hover:font-semibold relative after:content-[''] after:block after:w-0 after:h-1 after:bg-primary after:transition-all after:duration-300 hover:after:w-full font-poppins text-sm transition-colors @if(request()->routeIs('utama')) font-bold after:w-full @endif">Utama</a>
 
+      <!-- Dropdown - Desktop -->
       <div class="relative" x-data="{ 
           open: false,
           isProfileActive: {{ request()->routeIs('ahli-jawatankuasa') || request()->routeIs('fasiliti') ? 'true' : 'false' }}
         }">
-        <button @click="open = !open"class="flex items-center text-black hover:text-primary hover:font-semibold font-poppins text-sm transition-colors">
-          <!-- PENTING: Kelas `after:w-full` kini diuruskan oleh Alpine.js melalui `:class` -->
+        <button @click="open = !open" class="flex items-center text-black hover:text-primary hover:font-semibold font-poppins text-sm transition-colors">
           <span class="relative after:content-[''] after:block after:w-0 after:h-1 after:bg-primary after:transition-all after:duration-300 hover:after:w-full 
                 @if(request()->routeIs('ahli-jawatankuasa') || request()->routeIs('fasiliti')) font-bold @endif"
                 :class="{'after:w-full': open || isProfileActive}">
@@ -53,11 +60,48 @@
       </a>
     </div>
 
+    <!-- Mobile Menu -->
+    <div x-show="open" @click.away="open = false" class="w-full md:hidden bg-white border-t border-gray-200 mt-2">
+      <div class="flex flex-col space-y-2 p-4">
+        <a href="{{ route('utama') }}" class="block px-4 py-2 text-black hover:bg-gray-100 rounded-md font-poppins text-sm">
+          Utama
+        </a>
+
+        <!-- Mobile Dropdown -->
+        <div class="relative">
+          <button @click="dropdownOpen = !dropdownOpen" class="w-full flex items-center justify-between px-4 py-2 text-black hover:bg-gray-100 rounded-md font-poppins text-sm">
+            <span>Profil Kampung</span>
+            <svg class="w-4 h-4 transition-transform" :class="{'rotate-180': dropdownOpen}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          
+          <div x-show="dropdownOpen" class="bg-gray-50 border-l-4 border-primary">
+            <a href="{{ route('ahli-jawatankuasa') }}" class="block px-8 py-2 text-gray-700 hover:bg-gray-100 font-poppins text-sm">
+              Ahli Jawatankuasa
+            </a>
+            <a href="{{ route('fasiliti') }}" class="block px-8 py-2 text-gray-700 hover:bg-gray-100 font-poppins text-sm">
+              Fasiliti
+            </a>
+          </div>
+        </div>
+
+        <a href="{{ route('aktiviti') }}" class="block px-4 py-2 text-black hover:bg-gray-100 rounded-md font-poppins text-sm">
+          Aktiviti
+        </a>
+        <a href="{{ route('budiman-biz-hub') }}" class="block px-4 py-2 text-black hover:bg-gray-100 rounded-md font-poppins text-sm">
+          Budiman Biz Hub
+        </a>
+        <a href="{{ route('hubungi-kami') }}" class="block px-4 py-2 text-black hover:bg-gray-100 rounded-md font-poppins text-sm">
+          Hubungi Kami
+        </a>
+      </div>
+    </div>
+
     <!-- Search Button -->
-    <div>
+    <div class="hidden md:block">
       <button onclick="window.location.href='{{ config('app.eaduan_url') }}'"
-        class="flex items-center text-white bg-linear-to-r from-primary to-tertiary hover:from-tertiary hover:to-primary font-medium rounded-full text-sm px-5 py-2.5 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
-      >
+        class="flex items-center text-white bg-linear-to-r from-primary to-tertiary hover:from-tertiary hover:to-primary font-medium rounded-full text-sm px-5 py-2.5 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2"
              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round"
