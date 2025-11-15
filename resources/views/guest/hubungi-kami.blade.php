@@ -43,7 +43,7 @@
     // Data Mockup Perhubungan
     $contactInfo = [
         ['type' => 'Whatsapp', 'details' => '+60 12-987684763', 'icon' => 'message-square', 'link' => '#'],
-        ['type' => 'Email', 'details' => 'jkppp@kampungbudiman.my', 'icon' => 'mail', 'link' => '#'],
+        ['type' => 'Email', 'details' => 'kampungbudimanofficial@gmail.com', 'icon' => 'mail', 'link' => '#'],
         ['type' => 'Alamat', 'details' => 'Lot 4470 / 2, Jalan Haji, Jalan Paip, Kampung Budiman Menara, 41050 Klang, Selangor', 'icon' => 'map-pin', 'link' => '#'],
     ];
 @endphp
@@ -106,7 +106,7 @@
         </div>
 
         <!-- Call to Action Button (Full Width on Mobile) -->
-        <a href="#" class="inline-flex items-center justify-center px-12 py-4 text-lg font-bold text-white rounded-lg shadow-2xl transition duration-500 ease-in-out {{ $gradientClass }}">
+        <a href="{{ config('app.eaduan_url')  }}" class="inline-flex items-center justify-center px-12 py-4 text-lg font-bold text-white rounded-lg shadow-2xl transition duration-500 ease-in-out {{ $gradientClass }}">
             Terus ke Sistem E-Aduan
             <!-- Arrow Right Icon -->
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 ml-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
