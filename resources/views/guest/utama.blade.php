@@ -45,6 +45,40 @@
         </div>
     </section>
 
+    <!-- 360 Video Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12 intersect:motion-preset-fade intersect:motion-ease-spring-bouncier">
+                <h2 class="text-4xl md:text-5xl font-extrabold text-primary mb-4">
+                    Pandangan 360° Kampung Budiman
+                </h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Terokai keindahan dan keunikan Kampung Budiman melalui pengalaman video 360 darjah yang membawa anda merasai suasana sebenar kampung kami.
+                </p>
+            </div>
+
+            <div class="max-w-5xl mx-auto intersect:motion-preset-fade intersect:motion-ease-spring-bouncier">
+                <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-black" style="padding-bottom: 56.25%;">
+                    <iframe 
+                        class="absolute top-0 left-0 w-full h-full"
+                        src="https://www.youtube.com/embed/tgBeeSlEj60" 
+                        title="Video 360 Kampung Budiman" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        referrerpolicy="strict-origin-when-cross-origin" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <p class="text-center text-sm text-gray-500 mt-4">
+                    <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    </svg>
+                    Seret untuk melihat pandangan 360° atau gunakan kawalan untuk navigasi
+                </p>
+            </div>
+        </div>
+    </section>
+
     <!-- Pengenalan -->
     <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
