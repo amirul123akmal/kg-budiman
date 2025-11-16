@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AJKController as ajk;
 use App\Http\Controllers\api\FasilityController as fasility;
 use App\Http\Controllers\api\AktivitiController as activity;
-use App\Http\Controllers\api\BizhubController as bizhub;
+use App\Http\Controllers\api\BizHubController as bizhub;
 
 Route::prefix('api')->group(function () {
 

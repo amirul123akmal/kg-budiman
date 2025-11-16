@@ -22,7 +22,7 @@
       <div>
         <h3 class="font-semibold mb-3">Perkhidmatan</h3>
         <ul class="space-y-2 text-sm">
-          <li><a href="#" class="hover:text-gray-300">Aduan</a></li>
+          <li><a href="{{ config('app.eaduan_url') }}" class="hover:text-gray-300" target="_blank" rel="noopener">Aduan</a></li>
           <li><a href="{{ route('aktiviti') }}" class="hover:text-gray-300">Aktiviti</a></li>
           <li><a href="{{ route('budiman-biz-hub') }}" class="hover:text-gray-300">Budiman Biz Hub</a></li>
         </ul>
