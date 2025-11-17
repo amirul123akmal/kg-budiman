@@ -55,7 +55,7 @@
         <!-- Placeholder for the actual background image -->
         <img src="/images/hubungi-kami.jpg"
              alt="Latar Belakang Meja Pejabat"
-             class="w-full h-full object-cover">
+             class="w-full h-full object-cover opacity-75">
         
         <!-- Dark Overlay with subtle tint -->
         <div class="absolute inset-0 bg-black/50"></div>
@@ -104,6 +104,31 @@
                 </div>
             @endforeach
         </div>
+        <div class="flex justify-center items-center gap-3 mb-12" role="group" aria-label="Social links">
+            <a href="https://www.instagram.com/kgbudimanofficial/" target="_blank" rel="noopener" aria-label="Instagram" class="w-9 h-9 flex items-center justify-center rounded-md text-white {{ $gradientClass }}">
+                <!-- Instagram -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="3" width="20" height="18" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+            </a>
+
+            <a href="https://www.tiktok.com/@kampungbudiman" target="_blank" rel="noopener" aria-label="TikTok" class="w-9 h-9 flex items-center justify-center rounded-md bg-black text-white">
+                <!-- TikTok (musical note) -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18a4 4 0 1 0 4-4h1V6h3"></path>
+                </svg>
+            </a>
+
+            <a href="https://www.facebook.com/profile.php?id=100078154886670" target="_blank" rel="noopener" aria-label="Facebook" class="w-9 h-9 flex items-center justify-center rounded-md bg-blue-600 text-white">
+                <!-- Facebook -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 2h-3a4 4 0 0 0-4 4v3H8v4h3v8h4v-8h3l1-4h-4V6a1 1 0 0 1 1-1h3z"></path>
+                </svg>
+            </a>
+        </div>
+        
 
         <!-- Call to Action Button (Full Width on Mobile) -->
         <a href="{{ config('app.eaduan_url')  }}" class="inline-flex items-center justify-center px-12 py-4 text-lg font-bold text-white rounded-lg shadow-2xl transition duration-500 ease-in-out {{ $gradientClass }}">
