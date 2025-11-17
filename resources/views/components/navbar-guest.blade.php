@@ -1,7 +1,7 @@
 <nav class="bg-linear-to-r from-white to-gray-50 shadow-lg border-b border-gray-200 px-6 py-4" x-data="{ open: false, dropdownOpen: false }">
   <div class="flex flex-wrap items-center justify-between mx-auto max-w-7xl">
     <!-- Logo -->
-    <a href="#" class="flex items-center space-x-2 transition-transform hover:scale-105">
+    <a href="/" class="flex items-center space-x-2 transition-transform hover:scale-105">
       <img src="/images/jpkk ori.png" class="h-10 drop-shadow-sm" alt="Kampung Budiman Logo" />
     </a>
 

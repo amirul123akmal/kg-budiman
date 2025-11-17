@@ -39,7 +39,7 @@
 
             <!-- Logo Card -->
             <div class="bg-white rounded-2xl shadow-lg p-6 lg:p-8 w-full max-w-sm intersect:motion-preset-slide-left intersect:motion-ease-spring-bouncier">
-            <img src="/images/jpkk.png" alt="JPKK Kampung Budiman" class="w-full h-auto" />
+            <img src="/images/jpkk ori.png" alt="JPKK Kampung Budiman" class="w-full h-auto" />
             </div>
 
         </div>
