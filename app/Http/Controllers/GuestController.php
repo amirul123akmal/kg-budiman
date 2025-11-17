@@ -52,7 +52,7 @@ class GuestController extends Controller
 
     public function fasiliti()
     {
-        $fasiliti = Facility::orderBy('created_at', 'desc')->get();
+        $fasiliti = Facility::orderBy('name', 'asc')->get();
         return view('guest.fasiliti', compact('fasiliti'));
     }
 
