@@ -1,4 +1,112 @@
 <x-app-layout :title="'Utama'">
+<section id="bulletin" class="w-full bg-gradient-to-r from-primary/5 to-tertiary/5 py-8 relative overflow-hidden">
+      @if($carouselAnnouncements->isNotEmpty())
+        <!-- Flowbite Slider -->
+        <div id="bulletin-carousel" class="relative w-full" data-carousel="slide">
+          <div class="relative h-56 overflow-hidden rounded-none md:h-96">
+            <div class="slides flex transition-transform duration-500 ease-in-out">
+              @foreach($carouselAnnouncements as $announcement)
+                <div class="hidden duration-700 ease-in-out slide block flex-none w-full relative h-56 md:h-96" data-carousel-item>
+                  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{ $announcement['image_url'] }}');"></div>
+                  <div class="absolute inset-0 bg-black/50 flex items-center justify-center px-6">
+                    <div class="max-w-4xl text-center text-white space-y-3">
+                      <a href="{{ route('aktiviti') }}" class="inline-block text-xs uppercase tracking-[0.4em] text-white/70 hover:text-white transition">{{ $announcement['start_date'] ?? 'Tarikh TBA' }}</a>
+                      <h3 class="text-2xl md:text-4xl font-extrabold">
+                        <a href="{{ route('aktiviti') }}"
+                           class="transition hover:text-tertiary focus-visible:text-tertiary [-webkit-text-stroke:0] [text-stroke:0] hover:[-webkit-text-stroke:1px_rgba(255,255,255,0.9)] hover:[text-stroke:1px_rgba(255,255,255,0.9)]"
+                           style="text-shadow: 0 2px 8px rgba(0,0,0,0.35);">
+                          {{ $announcement['title'] }}
+                        </a>
+                      </h3>
+                      <p class="text-sm md:text-base text-gray-100/90">
+                        <a href="{{ route('aktiviti') }}" class="hover:text-white/90 transition">{{ $announcement['summary'] }}</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              @endforeach
+            </div>
+          </div>
+
+          <!-- Dots -->
+          <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3">
+            @foreach($carouselAnnouncements as $index => $announcement)
+              <button type="button" class="bullet w-3 h-3 rounded-full {{ $index === 0 ? 'bg-white/80' : 'bg-white/40' }}" aria-label="Slide {{ $index + 1 }}" data-carousel-slide-to="{{ $index }}"></button>
+            @endforeach
+          </div>
+
+          <!-- Controls -->
+          <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
+              <svg class="w-5 h-5 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/></svg>
+              <span class="sr-only">Previous</span>
+            </span>
+          </button>
+          <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
+              <svg class="w-5 h-5 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/></svg>
+              <span class="sr-only">Next</span>
+            </span>
+          </button>
+        </div>
+
+        <!-- Carousel script -->
+        <script>
+          (function () {
+            const root = document.getElementById('bulletin');
+            if (!root) return;
+            const slidesEl = root.querySelectorAll('.slide');
+            const slider = root.querySelector('.slides');
+            const bullets = Array.from(root.querySelectorAll('.bullet'));
+            const total = slidesEl.length;
+            if (!total) return;
+            let index = 0;
+            let intervalId = null;
+
+            // set widths so translate percent is calculated correctly
+            slider.style.width = (total * 100) + '%';
+            slidesEl.forEach(s => s.style.width = (100 / total) + '%');
+
+            function goTo(i) {
+              index = ((i % total) + total) % total;
+              const step = 100 / total;
+              slider.style.transform = 'translateX(-' + (index * step) + '%)';
+              bullets.forEach((b, idx) => b.classList.toggle('bg-white/80', idx === index));
+              bullets.forEach((b, idx) => b.classList.toggle('bg-white/40', idx !== index));
+            }
+
+            function start() {
+              stop();
+              intervalId = setInterval(() => goTo(index + 1), 4000);
+            }
+            function stop() {
+              if (intervalId) { clearInterval(intervalId); intervalId = null; }
+            }
+
+            // bullets click
+            bullets.forEach(b => b.addEventListener('click', () => {
+              goTo(Number(b.dataset.index));
+              start();
+            }));
+
+            // pause on hover/focus
+            root.addEventListener('mouseenter', stop);
+            root.addEventListener('mouseleave', start);
+            root.addEventListener('focusin', stop);
+            root.addEventListener('focusout', start);
+
+            // init
+            goTo(0);
+            start();
+          }());
+        </script>
+      @else
+        <div class="max-w-5xl mx-auto text-center py-12">
+          <p class="text-lg text-gray-600">Tiada buletin untuk dipaparkan buat masa ini. Sila kembali semula.</p>
+        </div>
+      @endif
+    </section>
+
     <!-- Hero Section -->
     <section class="relative bg-cover h-screen bg-center bg-no-repeat flex item-center justify-center" style="background-image: url('/images/ilovekgbudiman.jpg');">
         <!-- Overlay -->
@@ -41,6 +149,10 @@
             <div class="bg-white rounded-2xl shadow-lg p-6 lg:p-8 w-full max-w-sm intersect:motion-preset-slide-left intersect:motion-ease-spring-bouncier">
             <img src="/images/jpkk ori.png" alt="JPKK Kampung Budiman" class="w-full h-auto" />
             </div>
+
+        </div>
+    </section>
+    
 
         </div>
     </section>

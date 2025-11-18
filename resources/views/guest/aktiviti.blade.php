@@ -132,34 +132,70 @@
                     </div>
 
                     <!-- Senarai Pengumuman -->
-                    <div class="p-5 divide-y divide-gray-100">
-                    @forelse ($pengumumanList as $pengumuman)
-                        <div class="py-3">
-                            <p class="text-xs text-gray-500 mb-1">
-                                {{ \Carbon\Carbon::parse($pengumuman['start_date'])->format('d M Y') }}
-                            </p>
-                            <p class="text-sm text-gray-800 leading-relaxed">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 inline text-primary"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
-                                    <path d="M10.36 21a2 2 0 0 0 3.28 0"/>
-                                </svg>
-                                <strong>{{ $pengumuman['title'] }}</strong><br>
-                                {{ Str::limit($pengumuman['content'], 100) }}
-                            </p>
+                    <div data-pengumuman-container>
+                        <div class="p-5 divide-y divide-gray-100">
+                        @forelse ($pengumumanList as $pengumuman)
+                            <div class="py-3">
+                                <p class="text-xs text-gray-500 mb-1">
+                                    {{ \Carbon\Carbon::parse($pengumuman['start_date'])->format('d M Y') }}
+                                </p>
+                                <p class="text-sm text-gray-800 leading-relaxed">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 inline text-primary"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                        <path d="M10.36 21a2 2 0 0 0 3.28 0"/>
+                                    </svg>
+                                    <strong>{{ $pengumuman['title'] }}</strong><br>
+                                    {{ $pengumuman['content'] }}
+                                </p>
+                            </div>
+                        @empty
+                            <div class="py-3 text-center">
+                                <p class="text-sm text-gray-500">Tiada pengumuman pada masa ini.</p>
+                            </div>
+                        @endforelse
                         </div>
-                    @empty
-                        <div class="py-3 text-center">
-                            <p class="text-sm text-gray-500">Tiada pengumuman pada masa ini.</p>
-                        </div>
-                    @endforelse
+                        @if ($pengumumanList->hasPages())
+                            <div class="px-5 pb-4" data-pengumuman-pagination>
+                                {{ $pengumumanList->links() }}
+                            </div>
+                        @endif
                     </div>
                 </div>
 
             </div>
         </div>
     </section>
+
+    <!-- JavaScript untuk Pagination Pengumuman tanpa refresh -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.querySelector('[data-pengumuman-container]');
+            if (!container) return;
+
+            document.addEventListener('click', (event) => {
+                const paginationWrapper = event.target.closest('[data-pengumuman-pagination]');
+                if (!paginationWrapper) return;
+                const link = event.target.closest('a');
+                if (!link) return;
+                event.preventDefault();
+
+                fetch(link.href, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const newContainer = doc.querySelector('[data-pengumuman-container]');
+                        if (newContainer) {
+                            container.innerHTML = newContainer.innerHTML;
+                            window.history.replaceState({}, '', link.href);
+                        }
+                    })
+                    .catch(error => console.error('Tidak dapat memuat pengumuman:', error));
+            });
+        });
+    </script>
 
     <!-- JavaScript untuk Carousel Imej dalam Setiap Kad Aktiviti -->
     <script>

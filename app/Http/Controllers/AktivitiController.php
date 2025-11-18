@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\Announcement;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Storage;
 
 class AktivitiController extends Controller
@@ -83,5 +85,19 @@ class AktivitiController extends Controller
 		}
 		$activity->delete();
 		return redirect()->route('admin.aktiviti.index')->with('success', 'Aktiviti dipadam.');
+    }
+
+    /**
+     * Retrieve announcements for guest Aktiviti page with pagination.
+     */
+    public function guestAnnouncements(int $perPage = 4): LengthAwarePaginator
+    {
+        $now = now();
+
+        $windowStart = $now->copy()->subDays(3);
+
+        return Announcement::whereDate('start_date', '>=', $windowStart)
+            ->orderBy('start_date', 'desc')
+            ->paginate($perPage);
     }
 }

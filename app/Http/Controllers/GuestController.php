@@ -13,9 +13,11 @@ use App\Models\Facility;
 
 class GuestController extends Controller
 {
-    public function utama()
+    public function utama(PengumumanController $pengumumanController)
     {
-        return view('guest.utama');
+        $carouselAnnouncements = $pengumumanController->getCarouselAnnouncements();
+
+        return view('guest.utama', compact('carouselAnnouncements'));
     }
 
 	public function ahliJawatankuasa()
@@ -56,7 +58,7 @@ class GuestController extends Controller
         return view('guest.fasiliti', compact('fasiliti'));
     }
 
-    public function aktiviti()
+    public function aktiviti(AktivitiController $aktivitiController)
     {
         // Fetch activities from database
         $activities = Activity::orderBy('activity_date', 'desc')->get();
@@ -98,23 +100,15 @@ class GuestController extends Controller
             ];
         })->toArray();
 
-        // Fetch announcements from database
-        $announcements = Announcement::where('start_date', '<=', now())
-            ->where(function ($query) {
-                $query->whereNull('end_date')
-                    ->orWhere('end_date', '>=', now());
-            })
-            ->orderBy('start_date', 'desc')
-            ->get();
-        
-        // Format announcements for view
-        $pengumumanList = $announcements->map(function ($announcement) {
-            return [
-                'title' => $announcement->title,
-                'content' => $announcement->content,
-                'start_date' => $announcement->start_date->format('Y-m-d'),
-            ];
-        })->toArray();
+        // Fetch announcements with pagination via AktivitiController helper
+        $pengumumanList = $aktivitiController->guestAnnouncements()
+            ->through(function ($announcement) {
+                return [
+                    'title' => $announcement->title,
+                    'content' => $announcement->content,
+                    'start_date' => $announcement->start_date->format('Y-m-d'),
+                ];
+            });
         
         return view('guest.aktiviti', compact('aktivitiList', 'pengumumanList'));
     }
