@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Announcement;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class PengumumanController extends Controller
 {
@@ -30,14 +29,27 @@ class PengumumanController extends Controller
     public function store(Request $request)
     {
 		$data = $request->validate([
-			'title' => 'required|string|max:255',
-			'content' => 'required|string',
-			'start_date' => 'required|date',
-			'end_date' => 'nullable|date|after_or_equal:start_date',
-			'created_by' => 'required|integer|exists:users,userID',
+			'tajuk' => 'required|string|max:255',
+			'keterangan' => 'required|string',
+			'tarikh_mula' => 'required|date',
+			'tarikh_akhir' => 'nullable|date|after_or_equal:tarikh_mula',
+			'status' => 'required|string|max:50',
+			'gambar' => 'nullable|image|max:4096',
 		]);
 
-		Announcement::create($data);
+		$imagePath = null;
+		if ($request->hasFile('gambar')) {
+			$imagePath = $request->file('gambar')->store('pengumuman', 'public');
+		}
+
+		Announcement::create([
+			'title' => $data['tajuk'],
+			'content' => $data['keterangan'],
+			'start_date' => $data['tarikh_mula'],
+			'end_date' => $data['tarikh_akhir'],
+			'image_path' => $imagePath,
+			'created_by' => Auth::id() ?? 1,
+		]);
 
 		return redirect()->route('admin.pengunguman.index')->with('success', 'Pengumuman ditambah.');
     }
@@ -47,14 +59,27 @@ class PengumumanController extends Controller
 		$announcement = Announcement::findOrFail($id);
 
 		$data = $request->validate([
-			'title' => 'required|string|max:255',
-			'content' => 'required|string',
-			'start_date' => 'required|date',
-			'end_date' => 'nullable|date|after_or_equal:start_date',
-			'created_by' => 'required|integer|exists:users,userID',
+			'tajuk' => 'required|string|max:255',
+			'keterangan' => 'required|string',
+			'tarikh_mula' => 'required|date',
+			'tarikh_akhir' => 'nullable|date|after_or_equal:tarikh_mula',
+			'status' => 'required|string|max:50',
+			'gambar' => 'nullable|image|max:4096',
 		]);
 
-		$announcement->update($data);
+		if ($request->hasFile('gambar')) {
+			if ($announcement->image_path) {
+				Storage::disk('public')->delete($announcement->image_path);
+			}
+
+			$announcement->image_path = $request->file('gambar')->store('pengumuman', 'public');
+		}
+
+		$announcement->title = $data['tajuk'];
+		$announcement->content = $data['keterangan'];
+		$announcement->start_date = $data['tarikh_mula'];
+		$announcement->end_date = $data['tarikh_akhir'];
+		$announcement->save();
 
 		return redirect()->route('admin.pengunguman.index')->with('success', 'Pengumuman dikemas kini.');
     }
@@ -62,34 +87,13 @@ class PengumumanController extends Controller
     public function destroy($id)
     {
 		$announcement = Announcement::findOrFail($id);
+
+		if ($announcement->image_path) {
+			Storage::disk('public')->delete($announcement->image_path);
+		}
+
 		$announcement->delete();
 		return redirect()->route('admin.pengunguman.index')->with('success', 'Pengumuman dipadam.');
     }
 
-    /**
-     * Retrieve active announcements to be shown in the public carousel.
-     */
-    public function getCarouselAnnouncements(): Collection
-    {
-        $now = now()->startOfDay();
-        $windowStart = $now->copy()->subDays(3);
-
-        return Announcement::whereDate('start_date', '>=', $now)
-            ->orderBy('start_date')
-            ->get()
-            ->map(function (Announcement $announcement, int $index) {
-                $imageUrl = $announcement->image_path
-                    ? Storage::url($announcement->image_path)
-                    : asset('images/buletin-placeholder.jpg');
-
-                return [
-                    'id' => $announcement->announcementID,
-                    'title' => $announcement->title,
-                    'summary' => Str::limit(strip_tags($announcement->content), 140),
-                    'image_url' => $imageUrl,
-                    'start_date' => optional($announcement->start_date)->format('d M Y'),
-                    'anchor' => 'news-' . ($index + 1),
-                ];
-            });
-    }
 }

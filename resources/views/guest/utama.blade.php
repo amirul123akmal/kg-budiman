@@ -1,111 +1,6 @@
 <x-app-layout :title="'Utama'">
-<section id="bulletin" class="w-full bg-gradient-to-r from-primary/5 to-tertiary/5 py-8 relative overflow-hidden">
-      @if($carouselAnnouncements->isNotEmpty())
-        <!-- Flowbite Slider -->
-        <div id="bulletin-carousel" class="relative w-full" data-carousel="slide">
-          <div class="relative h-56 overflow-hidden rounded-none md:h-96">
-            <div class="slides flex transition-transform duration-500 ease-in-out">
-              @foreach($carouselAnnouncements as $announcement)
-                <div class="hidden duration-700 ease-in-out slide block flex-none w-full relative h-56 md:h-96" data-carousel-item>
-                  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{ $announcement['image_url'] }}');"></div>
-                  <div class="absolute inset-0 bg-black/50 flex items-center justify-center px-6">
-                    <div class="max-w-4xl text-center text-white space-y-3">
-                      <a href="{{ route('aktiviti') }}" class="inline-block text-xs uppercase tracking-[0.4em] text-white/70 hover:text-white transition">{{ $announcement['start_date'] ?? 'Tarikh TBA' }}</a>
-                      <h3 class="text-2xl md:text-4xl font-extrabold">
-                        <a href="{{ route('aktiviti') }}"
-                           class="transition hover:text-tertiary focus-visible:text-tertiary [-webkit-text-stroke:0] [text-stroke:0] hover:[-webkit-text-stroke:1px_rgba(255,255,255,0.9)] hover:[text-stroke:1px_rgba(255,255,255,0.9)]"
-                           style="text-shadow: 0 2px 8px rgba(0,0,0,0.35);">
-                          {{ $announcement['title'] }}
-                        </a>
-                      </h3>
-                      <p class="text-sm md:text-base text-gray-100/90">
-                        <a href="{{ route('aktiviti') }}" class="hover:text-white/90 transition">{{ $announcement['summary'] }}</a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              @endforeach
-            </div>
-          </div>
+  
 
-          <!-- Dots -->
-          <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3">
-            @foreach($carouselAnnouncements as $index => $announcement)
-              <button type="button" class="bullet w-3 h-3 rounded-full {{ $index === 0 ? 'bg-white/80' : 'bg-white/40' }}" aria-label="Slide {{ $index + 1 }}" data-carousel-slide-to="{{ $index }}"></button>
-            @endforeach
-          </div>
-
-          <!-- Controls -->
-          <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
-              <svg class="w-5 h-5 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/></svg>
-              <span class="sr-only">Previous</span>
-            </span>
-          </button>
-          <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
-              <svg class="w-5 h-5 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/></svg>
-              <span class="sr-only">Next</span>
-            </span>
-          </button>
-        </div>
-
-        <!-- Carousel script -->
-        <script>
-          (function () {
-            const root = document.getElementById('bulletin');
-            if (!root) return;
-            const slidesEl = root.querySelectorAll('.slide');
-            const slider = root.querySelector('.slides');
-            const bullets = Array.from(root.querySelectorAll('.bullet'));
-            const total = slidesEl.length;
-            if (!total) return;
-            let index = 0;
-            let intervalId = null;
-
-            // set widths so translate percent is calculated correctly
-            slider.style.width = (total * 100) + '%';
-            slidesEl.forEach(s => s.style.width = (100 / total) + '%');
-
-            function goTo(i) {
-              index = ((i % total) + total) % total;
-              const step = 100 / total;
-              slider.style.transform = 'translateX(-' + (index * step) + '%)';
-              bullets.forEach((b, idx) => b.classList.toggle('bg-white/80', idx === index));
-              bullets.forEach((b, idx) => b.classList.toggle('bg-white/40', idx !== index));
-            }
-
-            function start() {
-              stop();
-              intervalId = setInterval(() => goTo(index + 1), 4000);
-            }
-            function stop() {
-              if (intervalId) { clearInterval(intervalId); intervalId = null; }
-            }
-
-            // bullets click
-            bullets.forEach(b => b.addEventListener('click', () => {
-              goTo(Number(b.dataset.index));
-              start();
-            }));
-
-            // pause on hover/focus
-            root.addEventListener('mouseenter', stop);
-            root.addEventListener('mouseleave', start);
-            root.addEventListener('focusin', stop);
-            root.addEventListener('focusout', start);
-
-            // init
-            goTo(0);
-            start();
-          }());
-        </script>
-      @else
-        <div class="max-w-5xl mx-auto text-center py-12">
-          <p class="text-lg text-gray-600">Tiada buletin untuk dipaparkan buat masa ini. Sila kembali semula.</p>
-        </div>
-      @endif
-    </section>
 
     <!-- Hero Section -->
     <section class="relative bg-cover h-screen bg-center bg-no-repeat flex item-center justify-center" style="background-image: url('/images/ilovekgbudiman.jpg');">
@@ -154,9 +49,113 @@
     </section>
     
 
-        </div>
+          
+    <section id="bulletin" class="py-20 bg-white">
+          @if($carouselAnnouncements->isNotEmpty())
+            @php $slideCount = $carouselAnnouncements->count(); @endphp
+            <div id="bulletin-carousel"
+                class="relative max-w-7xl mx-auto px-6"
+                x-data="{
+                    active: 0,
+                    total: {{ $slideCount }},
+                    timer: null,
+                    start() { if (this.total <= 1) return; this.stop(); this.timer = setInterval(() => { this.active = (this.active + 1) % this.total; }, 6000); },
+                    stop() { if (this.timer) { clearInterval(this.timer); this.timer = null; } },
+                    go(index) { this.active = index; this.start(); }
+                }"
+                x-init="start()"
+                @mouseenter="stop()"
+                @mouseleave="start()">
+              <div class="relative h-[600px] md:h-[700px] overflow-hidden">
+                @foreach($carouselAnnouncements as $announcement)
+                  <article class="absolute inset-0"
+                          x-show="active === {{ $loop->index }}"
+                          x-transition:enter="transition ease-out duration-700"
+                          x-transition:enter-start="opacity-0 translate-x-[-100%]"
+                          x-transition:enter-end="opacity-100 translate-x-0"
+                          x-transition:leave="transition ease-in duration-500"
+                          x-transition:leave-start="opacity-100 translate-x-0"
+                          x-transition:leave-end="opacity-0 translate-x-[100%]"
+                          style="display: {{ $loop->first ? 'block' : 'none' }};"
+                          role="group"
+                          aria-roledescription="slide"
+                          aria-label="Buletin {{ $loop->iteration }} daripada {{ $slideCount }}">
+                    <div class="flex h-full items-center justify-center px-4 md:px-12 py-8">
+                      <div class="w-full max-w-6xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 h-full">
+                          <!-- Image Section -->
+                          <div class="relative h-64 lg:h-full overflow-hidden">
+                            <img src="{{ $announcement['image_url'] }}"
+                                alt="{{ $announcement['title'] }}"
+                                class="h-full w-full object-cover" />
+                          </div>
+                          <!-- Content Section -->
+                          <div class="p-8 md:p-12 space-y-8 flex flex-col justify-center">
+                            <div class="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.35em] text-gray-500">
+                              <span class="inline-flex items-center gap-2">
+                                <span class="h-2 w-2 rounded-full bg-primary"></span>
+                                Pengumuman
+                              </span>
+                              <span class="h-px w-8 bg-gray-300"></span>
+                              <span>{{ $announcement['start_date'] ?? 'Tarikh TBA' }}</span>
+                            </div>
+                            <h3 class="text-3xl font-black leading-tight text-gray-900 md:text-5xl">
+                              {{ $announcement['title'] }}
+                            </h3>
+                            <p class="text-lg text-gray-700 leading-relaxed md:text-xl">
+                              {{ $announcement['summary'] }}
+                            </p>
+                            <div class="flex flex-wrap items-center gap-4">
+                              <a href="{{ route('aktiviti') }}"
+                                class="inline-flex items-center gap-2 rounded-full bg-linear-to-r from-primary to-tertiary px-6 py-3 text-base font-semibold text-white shadow-lg shadow-primary/20 transition hover:opacity-90">
+                                Lihat Aktiviti
+                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5-5 5M6 12h12"/>
+                                </svg>
+                              </a>
+                              <div class="flex items-center gap-3 text-base text-gray-600">
+                                <span class="flex items-center gap-2">
+                                  <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6 1A9 9 0 1 1 3 12a9 9 0 0 1 18 0z"/>
+                                  </svg>
+                                  Kemaskini Terkini
+                                </span>
+                                <span class="h-1 w-1 rounded-full bg-gray-400"></span>
+                                <span>Kampung Budiman</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                @endforeach
+              </div>
+              
+              <!-- Dots -->
+              <div class="mt-4 flex items-center justify-center gap-x-1 gap-y-0.5">
+                @foreach($carouselAnnouncements as $index => $announcement)
+                  <button type="button"
+                          class="flex h-5 w-7 items-center justify-center cursor-pointer hover:opacity-80 transition-opacity"
+                          :class="{ 'pointer-events-none opacity-50': total <= 1 }"
+                          aria-label="Ke slide {{ $index + 1 }}"
+                          @click="go({{ $index }})">
+                    <span class="sr-only">Slide {{ $index + 1 }}</span>
+                    <span class="h-1.5 rounded-full transition-all duration-300"
+                          :class="active === {{ $index }}
+                            ? 'w-7 bg-primary shadow-md'
+                            : 'w-2.5 bg-gray-300'"></span>
+                  </button>
+                @endforeach
+              </div>
+            </div>
+          @else
+            <div class="mx-auto max-w-4xl px-6 py-16 text-center">
+              <p class="text-lg text-gray-600">Tiada buletin untuk dipaparkan buat masa ini. Sila kembali semula.</p>
+            </div>
+          @endif
     </section>
-
+        
     <!-- 360 Video Section -->
     <section id="video-360" class="py-20 bg-gray-50 scroll-mt-20">
         <div class="max-w-7xl mx-auto px-6">

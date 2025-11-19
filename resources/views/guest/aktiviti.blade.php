@@ -157,8 +157,44 @@
                         @endforelse
                         </div>
                         @if ($pengumumanList->hasPages())
+                            @php
+                                $isOnFirstPage = $pengumumanList->onFirstPage();
+                                $hasMorePages = $pengumumanList->hasMorePages();
+                            @endphp
                             <div class="px-5 pb-4" data-pengumuman-pagination>
-                                {{ $pengumumanList->links() }}
+                                <div class="flex items-center justify-center space-x-4">
+                                    @if ($isOnFirstPage)
+                                        <span class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-400 cursor-not-allowed">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                                            </svg>
+                                        </span>
+                                    @else
+                                        <a href="{{ $pengumumanList->previousPageUrl() }}" class="w-10 h-10 flex items-center justify-center rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" aria-label="Halaman Sebelumnya">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                                            </svg>
+                                        </a>
+                                    @endif
+
+                                    <span class="px-4 py-2 rounded-lg bg-gray-100 text-sm font-semibold text-gray-700 shadow-inner">
+                                        Halaman {{ $pengumumanList->currentPage() }} / {{ $pengumumanList->lastPage() }}
+                                    </span>
+
+                                    @if ($hasMorePages)
+                                        <a href="{{ $pengumumanList->nextPageUrl() }}" class="w-10 h-10 flex items-center justify-center rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" aria-label="Halaman Seterusnya">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </a>
+                                    @else
+                                        <span class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-400 cursor-not-allowed">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
                         @endif
                     </div>

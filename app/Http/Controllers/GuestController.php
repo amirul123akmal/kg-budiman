@@ -5,17 +5,34 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use App\Models\Announcement;
 use App\Models\CommitteeMember;
+use App\Models\Facility;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
-use App\Models\Facility;
+use Illuminate\Support\Str;
 
 class GuestController extends Controller
 {
-    public function utama(PengumumanController $pengumumanController)
+    public function utama()
     {
-        $carouselAnnouncements = $pengumumanController->getCarouselAnnouncements();
+        $carouselAnnouncements = Announcement::whereDate('start_date', '>=', now()->startOfDay())
+            ->orderBy('start_date')
+            ->limit(6)
+            ->get()
+            ->map(function (Announcement $announcement, int $index) {
+                $imageUrl = $announcement->image_path
+                    ? Storage::url($announcement->image_path)
+                    : asset('images/buletin-placeholder.jpg');
+
+                return [
+                    'id' => $announcement->announcementID,
+                    'title' => $announcement->title,
+                    'summary' => Str::limit(strip_tags($announcement->content), 150),
+                    'image_url' => $imageUrl,
+                    'start_date' => optional($announcement->start_date)->format('d M Y'),
+                    'anchor' => 'news-' . ($index + 1),
+                ];
+            });
 
         return view('guest.utama', compact('carouselAnnouncements'));
     }
@@ -129,5 +146,10 @@ class GuestController extends Controller
     public function hubungiKami()
     {
         return view('guest.hubungi-kami');
+    }
+
+    public function sejarah()
+    {
+        return view('guest.sejarah');
     }
 }
