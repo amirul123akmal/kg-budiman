@@ -12,11 +12,6 @@ use App\Models\Facility;
 
 class FasilityController extends Controller
 {
-    public function __construct()
-    {
-        $this->apiHelper = new ApiHelper();
-    }
-
     public function get_fasiliti(Request $request)
     {
         $data = Facility::all();
