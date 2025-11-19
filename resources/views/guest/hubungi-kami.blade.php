@@ -101,7 +101,7 @@
                 <!-- Contact Card -->
                 <div class="group relative {{ $cardBg }} p-8 rounded-2xl shadow-xl border border-gray-100 text-left transform transition-all duration-300 ease-in-out {{ $hoverEffect }} overflow-hidden">
                     <!-- Decorative gradient overlay on hover -->
-                    <div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     
                     <div class="relative flex items-start gap-5">
                         <!-- Icon Container -->
@@ -135,7 +135,7 @@
                             <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors duration-300">
                                 {{ $contact['type'] }}
                             </h4>
-                            <p class="text-sm text-gray-600 font-medium break-words leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
+                            <p class="text-sm text-gray-600 font-medium wrap-break-word leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
                                 {{ $contact['details'] }}
                             </p>
                         </div>

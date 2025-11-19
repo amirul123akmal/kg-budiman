@@ -3,30 +3,30 @@
 
 
     <!-- Hero Section -->
-    <section class="relative bg-cover h-screen bg-center bg-no-repeat flex item-center justify-center" style="background-image: url('/images/ilovekgbudiman.jpg');">
+    <section class="relative bg-cover h-[85vh] bg-center bg-no-repeat flex item-center justify-center" style="background-image: url('/images/ilovekgbudiman.jpg');">
         <!-- Overlay -->
         <div class="absolute inset-0 bg-black/60"></div>
 
-        <div class="relative max-w-7xl mx-auto px-6 py-24 flex flex-col lg:flex-row items-center justify-between gap-10 text-white">
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-16 lg:py-20 flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-8 lg:gap-10 text-white">
             
             <!-- Text Section -->
-            <div class="max-w-2xl intersect:motion-preset-slide-right intersect:motion-ease-spring-bouncier">
-            <h2 class="text-4xl md:text-5xl font-bold leading-tight">
+            <div class="w-full lg:max-w-2xl text-center lg:text-left intersect:motion-preset-slide-right intersect:motion-ease-spring-bouncier">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
                 <span class="text-white">Selamat Datang</span> ke<br />
                 <span class="text-white">Kampung Budiman</span>
             </h2>
 
-            <p class="mt-6 text-gray-200 leading-relaxed">
+            <p class="mt-4 sm:mt-6 text-gray-200 leading-relaxed text-sm sm:text-base">
                 Sebuah komuniti harmoni yang berteraskan nilai kemanusiaan, gotong-royong, dan semangat kejiranan.
             </p>
 
-            <p class="mt-3 text-gray-200 leading-relaxed">
+            <p class="mt-2 sm:mt-3 text-gray-200 leading-relaxed text-sm sm:text-base">
                 Di sini, kami meraikan kehidupan desa yang penuh ketenangan, sambil melangkah ke arah kemajuan bersama.
             </p>
 
             <!-- CTA Button -->
-            <div class="mt-8">
-                <a href="#video-360"
+            <div class="mt-6 sm:mt-8 flex justify-center lg:justify-start">
+                <a href="#bulletin"
                 class="inline-flex items-center px-5 py-3 text-sm font-medium rounded-lg text-white
                         bg-linear-to-r from-primary to-tertiary
                         hover:opacity-90 transition">
@@ -41,8 +41,10 @@
             </div>
 
             <!-- Logo Card -->
-            <div class="bg-white rounded-2xl shadow-lg p-6 lg:p-8 w-full max-w-sm intersect:motion-preset-slide-left intersect:motion-ease-spring-bouncier">
-            <img src="/images/jpkk ori.png" alt="JPKK Kampung Budiman" class="w-full h-auto" />
+            <div class="w-full lg:w-auto lg:max-w-sm flex justify-center lg:justify-end intersect:motion-preset-slide-left intersect:motion-ease-spring-bouncier">
+                <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 w-full max-w-[280px] sm:max-w-sm">
+                    <img src="/images/jpkk ori.png" alt="JPKK Kampung Budiman" class="w-full h-auto" />
+                </div>
             </div>
 
         </div>
@@ -50,11 +52,11 @@
     
 
           
-    <section id="bulletin" class="py-20 bg-white">
+    <section id="bulletin" class="py-12 sm:py-16 md:py-20 bg-white intersect:motion-preset-fade intersect:motion-ease-spring-bouncier">
           @if($carouselAnnouncements->isNotEmpty())
             @php $slideCount = $carouselAnnouncements->count(); @endphp
             <div id="bulletin-carousel"
-                class="relative max-w-7xl mx-auto px-6"
+                class="relative max-w-7xl mx-auto px-3 sm:px-4 md:px-6 intersect:motion-preset-slide-up intersect:motion-duration-1200"
                 x-data="{
                     active: 0,
                     total: {{ $slideCount }},
@@ -66,7 +68,7 @@
                 x-init="start()"
                 @mouseenter="stop()"
                 @mouseleave="start()">
-              <div class="relative h-[600px] md:h-[700px] overflow-hidden">
+              <div class="relative h-auto min-h-[500px] md:h-[600px] overflow-hidden">
                 @foreach($carouselAnnouncements as $announcement)
                   <article class="absolute inset-0"
                           x-show="active === {{ $loop->index }}"
@@ -80,48 +82,49 @@
                           role="group"
                           aria-roledescription="slide"
                           aria-label="Buletin {{ $loop->iteration }} daripada {{ $slideCount }}">
-                    <div class="flex h-full items-center justify-center px-4 md:px-12 py-8">
-                      <div class="w-full max-w-6xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 h-full">
+                    <div class="flex h-full items-center justify-center px-3 sm:px-4 md:px-8 lg:px-12 py-4 md:py-6">
+                      <div class="w-full max-w-7xl mx-auto bg-white rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl overflow-hidden border border-gray-200/70">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
                           <!-- Image Section -->
-                          <div class="relative h-64 lg:h-full overflow-hidden">
+                          <div class="relative h-48 sm:h-56 md:h-64 lg:h-full lg:min-h-[420px] overflow-hidden">
                             <img src="{{ $announcement['image_url'] }}"
                                 alt="{{ $announcement['title'] }}"
                                 class="h-full w-full object-cover" />
                           </div>
                           <!-- Content Section -->
-                          <div class="p-8 md:p-12 space-y-8 flex flex-col justify-center">
-                            <div class="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.35em] text-gray-500">
-                              <span class="inline-flex items-center gap-2">
-                                <span class="h-2 w-2 rounded-full bg-primary"></span>
+                          <div class="p-5 sm:p-6 md:p-8 lg:p-12 space-y-4 sm:space-y-6 md:space-y-8 flex flex-col justify-center">
+                            <div class="flex flex-wrap items-center gap-2 sm:gap-3 text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.35em] text-gray-500">
+                              <span class="inline-flex items-center gap-1.5 sm:gap-2">
+                                <span class="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-primary"></span>
                                 Pengumuman
                               </span>
-                              <span class="h-px w-8 bg-gray-300"></span>
+                              <span class="h-px w-6 sm:w-8 bg-gray-300"></span>
                               <span>{{ $announcement['start_date'] ?? 'Tarikh TBA' }}</span>
                             </div>
-                            <h3 class="text-3xl font-black leading-tight text-gray-900 md:text-5xl">
+                            <h3 class="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-black leading-tight text-gray-900">
                               {{ $announcement['title'] }}
                             </h3>
-                            <p class="text-lg text-gray-700 leading-relaxed md:text-xl">
+                            <p class="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 leading-relaxed">
                               {{ $announcement['summary'] }}
                             </p>
-                            <div class="flex flex-wrap items-center gap-4">
+                            <div class="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 pt-2">
                               <a href="{{ route('aktiviti') }}"
-                                class="inline-flex items-center gap-2 rounded-full bg-linear-to-r from-primary to-tertiary px-6 py-3 text-base font-semibold text-white shadow-lg shadow-primary/20 transition hover:opacity-90">
+                                class="inline-flex items-center justify-center gap-2 rounded-full bg-linear-to-r from-primary to-tertiary px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-white shadow-lg shadow-primary/20 transition hover:opacity-90">
                                 Lihat Aktiviti
-                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <svg class="h-4 w-4 sm:h-5 sm:w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                   <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5-5 5M6 12h12"/>
                                 </svg>
                               </a>
-                              <div class="flex items-center gap-3 text-base text-gray-600">
-                                <span class="flex items-center gap-2">
-                                  <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                              <div class="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm md:text-base text-gray-600">
+                                <span class="flex items-center gap-1.5 sm:gap-2">
+                                  <svg class="h-4 w-4 sm:h-5 sm:w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6 1A9 9 0 1 1 3 12a9 9 0 0 1 18 0z"/>
                                   </svg>
-                                  Kemaskini Terkini
+                                  <span class="hidden sm:inline">Kemaskini Terkini</span>
+                                  <span class="sm:hidden">Terkini</span>
                                 </span>
                                 <span class="h-1 w-1 rounded-full bg-gray-400"></span>
-                                <span>Kampung Budiman</span>
+                                <span class="text-xs sm:text-sm md:text-base">Kampung Budiman</span>
                               </div>
                             </div>
                           </div>
@@ -168,7 +171,7 @@
                 </p>
             </div>
 
-            <div class="max-w-5xl mx-auto intersect:motion-preset-fade intersect:motion-ease-spring-bouncier">
+            <div class="max-w-5xl mx-auto intersect:motion-preset-slide-right intersect:motion-ease-spring-bouncier">
                 <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-black" style="padding-bottom: 56.25%;">
                     <iframe 
                         class="absolute top-0 left-0 w-full h-full"
