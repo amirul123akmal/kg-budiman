@@ -15,9 +15,8 @@ class GuestController extends Controller
 {
     public function utama()
     {
-        $carouselAnnouncements = Announcement::whereDate('start_date', '>=', now()->startOfDay())
+        $carouselAnnouncements = Announcement::whereDate('start_date', '<=', now()->startOfDay())
             ->orderBy('start_date')
-            ->limit(6)
             ->get()
             ->map(function (Announcement $announcement, int $index) {
                 $imageUrl = $announcement->image_path
