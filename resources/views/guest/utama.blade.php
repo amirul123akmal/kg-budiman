@@ -270,9 +270,8 @@
         LOKASI KAMI
       </h2>
 
-      <!-- Google Map Embed -->
       <div class="rounded-xl overflow-hidden shadow-md mb-6">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10698.680270931465!2d101.43591849797903!3d3.13258967553216!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc5149376026ef%3A0x369c8154c815153!2sMeru%2C%2041050%20Klang%2C%20Selangor!5e0!3m2!1sen!2smy!4v1762413636633!5m2!1sen!2smy" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4964.156356033213!2d101.46790405!3d3.15410395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc50e2aabfc2f9%3A0x2f1d233d56216c6f!2sKampung%20Budiman%2C%2040150%20Klang%2C%20Selangor!5e1!3m2!1sen!2smy!4v1763633190027!5m2!1sen!2smy" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
 
       <!-- Address Box -->

@@ -61,6 +61,11 @@
             <!-- Fasiliti Grid (3 items per row) -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach ($fasiliti as $item)
+                    @php
+                        $mapUrl = $item->location
+                            ? 'https://www.google.com/maps/search/?api=1&query=' . urlencode($item->location)
+                            : null;
+                    @endphp
                     <!-- Facility Card -->
                     <div class="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200 transform transition duration-500 ease-in-out hover:shadow-2xl hover:scale-[1.03]">
                         
@@ -72,11 +77,23 @@
                             
                             <!-- Top-Right Badge (Gradient) -->
                             <div class="absolute top-0 right-0 p-3">
-                                <div class="w-8 h-8 rounded-full shadow-lg flex items-center justify-center text-white {{ $gradientClass }}" 
-                                    title="{{ $item->badge }}">
-                                    <!-- Map Pin Icon -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                                </div>
+                                @if ($mapUrl)
+                                    <a href="{{ $mapUrl }}"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       class="w-10 h-10 rounded-full shadow-lg flex items-center justify-center text-white {{ $gradientClass }} transition hover:scale-105 focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:outline-none"
+                                       title="Buka lokasi {{ $item->name }} di Google Maps"
+                                       aria-label="Buka lokasi {{ $item->name }} di Google Maps">
+                                        <!-- Map Pin Icon -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                    </a>
+                                @else
+                                    <div class="w-10 h-10 rounded-full shadow-lg flex items-center justify-center text-white {{ $gradientClass }}"
+                                        title="{{ $item->badge }}">
+                                        <!-- Map Pin Icon -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                    </div>
+                                @endif
                             </div>
                         </div>
 
